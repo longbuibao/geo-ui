@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Trang chủ
+    </title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossOrigin="anonymous" />
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="shortcut icon" href="public/img/GreenMask.png">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+
+    <!-- Web Framework CSS - Bootstrap (getbootstrap.com) and Bootstrap-map-js (github.com/esri/bootstrap-map-js) -->
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//esri.github.io/bootstrap-map-js/src/css/bootstrapmap.css"> -->
+    <!-- ArcGIS API for JavaScript library references -->
+    <script src="https://js.arcgis.com/4.15/"></script>
+    <!-- Terraformer reference -->
+    <!-- <script src="./vendor/terraformer/terraformer.min.js"></script>
+    <script src="./vendor/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script> -->
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer",
+            "esri/widgets/LayerList",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/Legend",
+            "esri/widgets/Expand",
+            "esri/widgets/Search",
+            "esri/widgets/Track",
+            "esri/layers/GeoJSONLayer",
+            "esri/widgets/Directions",
+            "esri/config"
+        ], function(Map, MapView, Graphic, GraphicsLayer, LayerList, BasemapGallery, Legend, Expand, Search, Track, GeoJSONLayer, Directions,
+            esriConfig) {
+
+            esriConfig.apiKey = "AAPKc1f7559b59c44a1397e39b4f2b87ebc6f0KRFFVS8U5tWT8HBBMXDbTbSjKVwGiQOmbF1LJYadDZLWfya-c13h_TIC36h0F6";
+            var map = new Map({
+                basemap: "topo-vector"
+            });
+
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [106.8033387, 10.8739831],
+                zoom: 16,
+                highlightOptions: {
+                    color: "blue"
+                }
+            });
+
+            var searchWidget = new Search({
+                view: view,
+                container: "searchWidget"
+            });
+
+
+            var track = new Track({
+                view: view
+            });
+
+
+
+            const directExpand = new Expand({
+                content: new Directions({
+                    view: view
+                }),
+                view: view,
+                group: "top-left"
+            })
+
+            // Add the Directions widget to the top right corner of the view
+            view.ui.add(directExpand, {
+                position: "top-left"
+            });
+
+
+            view.ui.add(
+                [
+                    new Expand({
+                        content: new BasemapGallery({
+                            view: view
+                        }),
+                        view: view,
+                        expandIconClass: "esri-icon-basemap",
+                        group: "top-left"
+                    }),
+                    new Expand({
+                        content: new LayerList({
+                            view: view,
+                        }),
+                        view: view,
+                        expanded: true,
+                        group: "top-left"
+                    }),
+                    new Expand({
+                        content: new Legend({
+                            view: view
+                        }),
+                        view: view,
+                        group: "top-left"
+                    })
+                ],
+                "top-right"
+            );
+
+        });
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon"><img src="public/img/GreenMask.png" style="width: 35px; height: 35px"></div>
+        </div>
+        <nav class="nav">
+            <ul class="menu">
+
+                <li class="menu-item active">
+                    <a href="/" class="menu-link ">Bản đồ</a>
+                </li>
+                <li class="menu-item">
+                    <a href="statistic.html" class="menu-link">Thống kê</a>
+                </li>
+                <li class="menu-item">
+                    <a href="/direction" class="menu-link">Lộ trình</a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <form id="searchWidgetForm" class="form-group ml-auto mr-5">
+            <!-- <input type="text" placeholder="Tìm kiếm" />
+            <button type="submit" class="fa fa-search"></i></button> -->
+            <div id="searchWidget"></div>
+        </form>
+    </header>
+    <div id="viewDiv"></div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

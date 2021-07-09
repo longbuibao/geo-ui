@@ -84,7 +84,7 @@ define([
             // Random colors
             this._simplePointSym = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 8,
                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 153]), 1),
-                new Color([0, 0, 153]));
+                getRandomColor("green", 0.15));
             this._simpleLineSym = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, getRandomColor("red", 0.9), 2);
             this._simplePolygonSym = new SimpleFillSymbol("solid",
                 new SimpleLineSymbol("solid", new Color([50, 50, 50, 0.15]), 1),
